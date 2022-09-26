@@ -26,10 +26,14 @@ func main() {
 	var licencoaDeComnducir = true
 	var estaturaDeLaPersona int
 	cantidadDeHijos := 2
+	fmt.Println("Nombre: " + nombre)
+	fmt.Println("Direcciòn: " + apellidoDos, cantidadDeHijos, licencoaDeComnducir)
 	//ACTIVIDAD 4
 	var apellidoA4 string = "Gomez"
-	var edad int = 35
+	var edad1 int = 35
 	boolean := "false"
 	var sueldo float64 = 45857.90
-	var nombre string = "Julian"
+	var nombre1 string = "Julian"
+	fmt.Println("Nombre: " + nombre1 + apellidoA4)
+	fmt.Println(apellidoDos, edad1, boolean, sueldo)
 }
