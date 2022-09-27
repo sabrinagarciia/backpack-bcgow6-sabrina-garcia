@@ -27,7 +27,7 @@ func main() {
 	var estaturaDeLaPersona int
 	cantidadDeHijos := 2
 	fmt.Println("Nombre: " + nombre)
-	fmt.Println("Direcciòn: " + apellidoDos, cantidadDeHijos, licencoaDeComnducir)
+	fmt.Println("Direcciòn: ", apellidoDos, cantidadDeHijos, licencoaDeComnducir, estaturaDeLaPersona, edad, apellido)
 	//ACTIVIDAD 4
 	var apellidoA4 string = "Gomez"
 	var edad1 int = 35
