@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"errors"
-)
-
-type 
+// import (
+// 	"fmt"
+// 	"errors"
+// )
