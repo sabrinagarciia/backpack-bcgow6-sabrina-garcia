@@ -6,7 +6,7 @@ import (
 
 func main() {
 	// ACTIVIDAD 1
-	nombresito := "FRANCO PESENDA"
+	nombresito := "Sabrina García"
 	direccion := "Altolaguirre"
 	fmt.Println("Nombre: " + nombresito)
 	fmt.Println("Direcciòn: " + direccion)
