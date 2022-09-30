@@ -1,10 +1,10 @@
-package ejercicio1
+package main
 
-import(
+import (
 	"fmt"
 )
 
-func LetterQuantity(word string) {
+func letterQuantity(word string) {
 	fmt.Printf("Número de letras: %d\n", len(word))
 	for i := 0; i < len(word); i++ {
 		//Esto imprime todas las letras en una misma línea
@@ -14,4 +14,10 @@ func LetterQuantity(word string) {
 		fmt.Println(string(word[i]))
 	}
 	fmt.Println()
+}
+
+func main() {
+	var word string = "Holaa"
+
+	letterQuantity(word)
 }
