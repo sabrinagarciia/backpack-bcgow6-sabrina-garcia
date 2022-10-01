@@ -1,9 +1,14 @@
 package main
 
+import (
+	"errors"
+	"fmt"
+)
+
 func minimum(grades ...int) int {
 	minimum := 10
 	for _, grade := range grades {
-		if (grade < minimum) {
+		if grade < minimum {
 			minimum = grade
 		}
 	}
@@ -13,7 +18,7 @@ func minimum(grades ...int) int {
 func maximum(grades ...int) int {
 	maximum := 0
 	for _, grade := range grades {
-		if (grade > maximum) {
+		if grade > maximum {
 			maximum = grade
 		}
 	}
@@ -31,20 +36,23 @@ func average(grades ...int) int {
 	return avg
 }
 
-func operation(minmaxavg string) func(grades ...int) int {
+func operation(minmaxavg string) (func(grades ...int) int, error) {
 	switch minmaxavg {
-		case "minimum":
-			return minimum
-		case "maximum":
-			return maximum
-		case "average":
-			return average
+	case "minimum":
+		return minimum, nil
+	case "maximum":
+		return maximum, nil
+	case "average":
+		return average, nil
 	}
-	return nil
+	return nil, errors.New("algo salió mal che")
 }
 
 func main() {
-	//minFunc, err := operation("minimum")
+	minFunc, err := operation("minimum")
 
-	 
+	minValue := minFunc(5,6,8,4,2,9)
+
+	fmt.Println(minValue)
+	fmt.Println(err)
 }
