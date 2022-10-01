@@ -15,11 +15,16 @@ func (m *Matrix) Set(values ...float64) {
 }
 
 func (m Matrix) Print() {
-	for i := 0; i < m.Columns; i++ {
-		for _, values := range m.Elements {
-			fmt.Println(m.Elements)
+	count := 1
+	for _, values := range m.Elements {
+		fmt.Print(values,"	")
+		count ++
+		if count > m.Columns {
+			count = 0
+			fmt.Print("\n")
 		}
 	}
+	fmt.Print("\n")
 }
 
 func main() {
