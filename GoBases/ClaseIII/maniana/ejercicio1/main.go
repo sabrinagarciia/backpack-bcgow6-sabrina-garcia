@@ -4,3 +4,6 @@ package main
 // 	"os"
 // )
 
+func main() {
+
+}
