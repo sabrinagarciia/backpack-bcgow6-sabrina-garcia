@@ -9,11 +9,11 @@ type Students struct {
 	Date		string
 }
 
-func detalle(student Students) {
-	fmt.Println("Nombre: " + student.Name)
-	fmt.Println("Apellido: " + student.Lastname)
-	fmt.Println("DNI: " + student.DNI)
-	fmt.Println("Fecha: " + student.Date)
+func (s Students) detalle() {
+	fmt.Println("Nombre: " + s.Name)
+	fmt.Println("Apellido: " + s.Lastname)
+	fmt.Println("DNI: " + s.DNI)
+	fmt.Println("Fecha: " + s.Date)
 }
 
 func main() {
@@ -24,5 +24,5 @@ func main() {
 		Date: "30-09-2022",
 	}
 
-	detalle(s1)
+	s1.detalle()
 }
