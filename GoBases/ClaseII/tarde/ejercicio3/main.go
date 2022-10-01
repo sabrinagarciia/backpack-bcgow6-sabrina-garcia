@@ -22,10 +22,23 @@ func (p product) CalcularCosto() float64 {
 		return finalPrice
 	case p.Type == "Grande":
 		finalPrice = p.Price * 1.06
-		return finalPrice + 2500
+		return finalPrice + 2500.00
 	default:
 		return 0.0
 	}
+}
+
+func (s store) total() float64 {
+	totalPrice := 0.0
+	for _, p := range s.Products {
+		productPrice := p.CalcularCosto()
+		totalPrice += productPrice
+	}
+	return totalPrice
+}
+
+func (s *store) agregar(product *product) {
+	s.Products = append(s.Products, *product)
 }
 
 //Interfaces
@@ -43,8 +56,8 @@ func nuevoProducto(productType, name *string, price *float64) *product {
 	return &product{Type: *productType, Name: *name, Price: *price}
 }
 
-func nuevaTienda() /*Ecommerce*/ {
-	
+func nuevaTienda(products *[]product) *store {
+	return &store{Products: *products}
 }
 
 
