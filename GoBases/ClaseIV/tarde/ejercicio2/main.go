@@ -4,3 +4,7 @@ package main
 // 	"fmt"
 // 	"errors"
 // )
+
+func main() {
+	
+}
