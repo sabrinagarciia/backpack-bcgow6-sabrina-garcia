@@ -1,9 +1,13 @@
 package main
 
+import (
+	"fmt"
+)
 
 type Product struct {
 	Name		string
-	Price, Quantity	int
+	Price		float64
+	Quantity	int
 }
 
 type Service struct {
@@ -17,24 +21,39 @@ type Maintenance struct {
 	Price		float64
 }
 
-func totalProducts(products []Product) int {
-	sum := 0
-	for _, p := range products {
-		sum += p.Price * p.Quantity
+func totalProducts(products *[]Product, c chan float64) {
+	sum := 0.0
+	for _, p := range *products {
+		sum += p.Price * float64(p.Quantity)
 	}
-	return sum
+	fmt.Println("Total productos $", sum)
+	c <- sum
+	close(c)
 }
 
-func totalService(services []Service) {
-	
+func totalService(services *[]Service, c chan float64) {
+	sum := 0.0
+	for _, s := range *services {
+		if s.Minutes < 30 {
+			sum += s.Price * 30
+		} else {
+			sum += float64(s.Minutes) * s.Price
+		}
+	}
+	fmt.Println("Total servicios $", sum)
+	c <- sum
+	close(c)
 }
 
-func finalTotal() {
+func totalMaintenance(maintenance *[]Maintenance, c chan float64) {
+	sum := 0.0
+	for _, m := range *maintenance {
+		sum += m.Price
+	}
 
-}
-
-func totalMaintenance() {
-	
+	fmt.Println("Total mantenmiento $", sum)
+	c <- sum
+	close(c)
 }
 
 func main() {
