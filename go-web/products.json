@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "name": "lata",
+        "color": "blanco",
+        "price": 20.00,
+        "stock": 300,
+        "code": "a00a",
+        "published": false,
+        "date": "20-09-2022"
+    },
+    {
+        "id": 2,
+        "name": "bolsa",
+        "color": "gris",
+        "price": 3.00,
+        "stock": 20,
+        "code": "b00a",
+        "published": true,
+        "date": "20-09-2022"
+    },
+    {
+        "id": 3,
+        "name": "cajón",
+        "color": "marrón",
+        "price": 40.00,
+        "stock": 90,
+        "code": "c04j",
+        "published": false,
+        "date": "20-09-2022"
+    },
+    {
+        "id": 4,
+        "name": "jarra",
+        "color": "azul",
+        "price": 10.00,
+        "stock": 10,
+        "code": "j44a",
+        "published": false,
+        "date": "20-09-2022"
+    },
+    {
+        "id": 5,
+        "name": "vaso",
+        "color": "azul",
+        "price": 1.00,
+        "stock": 20,
+        "code": "a00v",
+        "published": false,
+        "date": "20-09-2022"
+    },
+    {
+        "id": 6,
+        "name": "almohada",
+        "color": "blanco",
+        "price": 20.00,
+        "stock": 20,
+        "code": "a02a",
+        "published": false,
+        "date": "20-09-2022"
+    }
+]
