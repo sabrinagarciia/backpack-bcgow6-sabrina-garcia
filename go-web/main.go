@@ -56,7 +56,7 @@ func GetAll(c *gin.Context) {
 }
 
 func main() {
-	// ------- Ejercicio 1 de la clase 1 -------
+	// ------- Ejercicio 2 de la clase 1 -------
 	router := gin.Default()
 
 	router.GET("/hello", func (c *gin.Context)  {
@@ -65,7 +65,7 @@ func main() {
 		})
 	})
 
-
+	// ------- Ejercicio 3 de la clase 1 -------
 	router.GET("/products", GetAll)
 	// router.GET("/products", func(ctx *gin.Context) {
 	// 	read, err := os.ReadFile("./products.json")
