@@ -54,7 +54,7 @@ var products = []Product{
 func GetAll(c *gin.Context) {
 	//c.JSON(http.StatusOK, products)
 	var filtered []Product
-	query := c.Query("lata")
+	query := c.Query("name")
 	for _, p := range products {
 		if query == p.Name {
 			filtered = append(filtered, p)
