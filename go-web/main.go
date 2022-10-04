@@ -1,22 +1,23 @@
 package main
 
 import (
-	//"fmt"
+	"fmt"
 	"net/http"
 	//"os"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"strconv"
 )
 
 type Product struct {
-	ID        int     `json:"id"`
-	Name      string  `json:"name"`
-	Color     string  `json:"color"`
-	Price     float64 `json:"price"`
-	Stock     int     `json:"stock"`
-	Code      string  `json:"code"`
-	Published bool    `json:"published"`
-	Date      string  `json:"date"`
+	ID        int     `json:"id" binding:"required" validate:"required"`
+	Name      string  `json:"name" binding:"required" validate:"required"`
+	Color     string  `json:"color" binding:"required" validate:"required"`
+	Price     float64 `json:"price" binding:"required" validate:"required"`
+	Stock     int     `json:"stock" binding:"required" validate:"required"`
+	Code      string  `json:"code" binding:"required" validate:"required"`
+	Published bool    `json:"published" binding:"required" validate:"required"`
+	Date      string  `json:"date" binding:"required" validate:"required"`
 }
 
 var products = []Product{
@@ -74,7 +75,7 @@ func GetId(c *gin.Context) {
 		c.String(200, "Información del producto %s, nombre: %s \n", c.Param("id"), id)
 	}
 }
-
+var validate *validator.Validate
 func Save(c *gin.Context) {
 	token := c.GetHeader("token")
 
@@ -85,10 +86,39 @@ func Save(c *gin.Context) {
 
 	var req Product
 
-	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(404, gin.H{
-			"error": err.Error(),
-		})
+	// if err := c.ShouldBindJSON(&req); err != nil {
+	// 	c.JSON(404, gin.H{
+	// 		"error": err.Error(),
+	// 	})
+	// 	return
+	// }
+	validate = validator.New()
+	err := validate.Struct(req)
+	if err != nil {
+
+		// this check is only needed when your code could produce
+		// an invalid value for validation such as interface with nil
+		// value most including myself do not usually have code like this.
+		if _, ok := err.(*validator.InvalidValidationError); ok {
+			fmt.Println(err)
+			return
+		}
+
+		for _, err := range err.(validator.ValidationErrors) {
+			fmt.Println(err.Namespace())
+			fmt.Println(err.Field())
+			fmt.Println(err.StructNamespace())
+			fmt.Println(err.StructField())
+			fmt.Println(err.Tag())
+			fmt.Println(err.ActualTag())
+			fmt.Println(err.Kind())
+			fmt.Println(err.Type())
+			fmt.Println(err.Value())
+			fmt.Println(err.Param())
+			fmt.Println()
+		}
+
+		// from here you can create your own error messages in whatever language you wish
 		return
 	}
 	//lastID++
