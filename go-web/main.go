@@ -52,7 +52,7 @@ var products = []Product{
 	},
 }
 
-var lastID int = 3
+//var lastID int
 
 func GetAll(c *gin.Context) {
 	var filtered []Product
@@ -76,6 +76,13 @@ func GetId(c *gin.Context) {
 }
 
 func Save(c *gin.Context) {
+	token := c.GetHeader("token")
+
+	if token != "aaaaa" || token == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "token invalido"})
+		return
+	}
+
 	var req Product
 
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -84,8 +91,8 @@ func Save(c *gin.Context) {
 		})
 		return
 	}
-	lastID++
-	req.ID = lastID
+	//lastID++
+	req.ID = len(products) + 1
 	products = append(products, req)
 	c.JSON(200, req)
 }
