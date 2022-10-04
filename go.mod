@@ -1,4 +1,4 @@
-module main
+module github.com/sabrinagarciia/backpack-bcgow6-sabrina-garcia
 
 go 1.19
 
