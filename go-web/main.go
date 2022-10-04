@@ -1,23 +1,22 @@
 package main
 
 import (
-	"fmt"
+	//"fmt"
 	"net/http"
 	//"os"
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	"strconv"
 )
 
 type Product struct {
-	ID        int     `json:"id" binding:"required" validate:"required"`
-	Name      string  `json:"name" binding:"required" validate:"required"`
-	Color     string  `json:"color" binding:"required" validate:"required"`
-	Price     float64 `json:"price" binding:"required" validate:"required"`
-	Stock     int     `json:"stock" binding:"required" validate:"required"`
-	Code      string  `json:"code" binding:"required" validate:"required"`
-	Published bool    `json:"published" binding:"required" validate:"required"`
-	Date      string  `json:"date" binding:"required" validate:"required"`
+	ID        int     `json:"id" binding:"required"`
+	Name      string  `json:"name" binding:"required"`
+	Color     string  `json:"color" binding:"required"`
+	Price     float64 `json:"price" binding:"required"`
+	Stock     int     `json:"stock" binding:"required"`
+	Code      string  `json:"code" binding:"required"`
+	Published bool    `json:"published" binding:"required"`
+	Date      string  `json:"date" binding:"required"`
 }
 
 var products = []Product{
@@ -75,7 +74,7 @@ func GetId(c *gin.Context) {
 		c.String(200, "Información del producto %s, nombre: %s \n", c.Param("id"), id)
 	}
 }
-var validate *validator.Validate
+
 func Save(c *gin.Context) {
 	token := c.GetHeader("token")
 
@@ -86,41 +85,35 @@ func Save(c *gin.Context) {
 
 	var req Product
 
+	if err := c.ShouldBindJSON(&req); err != nil {
+		if req.Name == "" || req.Color == "" || req.Price == 0 || req.Stock == 0 || req.Code == "" || req.Date == "" {
+			if req.Name == "" {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "¡El campo Nombre es requerido!"})
+			}
+			if req.Color == "" {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "¡El campo Color es requerido!"})
+			}
+			if req.Price == 0 {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "¡El campo Precio es requerido!"})
+			}
+			if req.Stock == 0 {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "¡El campo Stock es requerido!"})
+			}
+			if req.Code == "" {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "¡El campo Codigo es requerido!"})
+			}
+			if req.Date == "" {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "¡El campo Fecha es requerido!"})
+			}
+			
+		}
+	}
 	// if err := c.ShouldBindJSON(&req); err != nil {
 	// 	c.JSON(404, gin.H{
 	// 		"error": err.Error(),
 	// 	})
 	// 	return
 	// }
-	validate = validator.New()
-	err := validate.Struct(req)
-	if err != nil {
-
-		// this check is only needed when your code could produce
-		// an invalid value for validation such as interface with nil
-		// value most including myself do not usually have code like this.
-		if _, ok := err.(*validator.InvalidValidationError); ok {
-			fmt.Println(err)
-			return
-		}
-
-		for _, err := range err.(validator.ValidationErrors) {
-			fmt.Println(err.Namespace())
-			fmt.Println(err.Field())
-			fmt.Println(err.StructNamespace())
-			fmt.Println(err.StructField())
-			fmt.Println(err.Tag())
-			fmt.Println(err.ActualTag())
-			fmt.Println(err.Kind())
-			fmt.Println(err.Type())
-			fmt.Println(err.Value())
-			fmt.Println(err.Param())
-			fmt.Println()
-		}
-
-		// from here you can create your own error messages in whatever language you wish
-		return
-	}
 	//lastID++
 	req.ID = len(products) + 1
 	products = append(products, req)
