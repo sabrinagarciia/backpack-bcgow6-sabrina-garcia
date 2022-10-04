@@ -4,8 +4,8 @@ import (
 	//"fmt"
 	"net/http"
 	//"os"
-	"strconv"
 	"github.com/gin-gonic/gin"
+	"strconv"
 )
 
 type Product struct {
@@ -52,8 +52,9 @@ var products = []Product{
 	},
 }
 
+var lastID int = 3
+
 func GetAll(c *gin.Context) {
-	//c.JSON(http.StatusOK, products)
 	var filtered []Product
 	query := c.Query("name")
 	for _, p := range products {
@@ -63,43 +64,44 @@ func GetAll(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, filtered)
-
 }
 
 func GetId(c *gin.Context) {
-	//prod, err := products[c.Param("id")]
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.String(404, "Información del producto ¡No existe! \n")
-		} else {
+	} else {
 		c.String(200, "Información del producto %s, nombre: %s \n", c.Param("id"), id)
 	}
+}
+
+func Save(c *gin.Context) {
+	var req Product
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(404, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	lastID++
+	req.ID = lastID
+	products = append(products, req)
+	c.JSON(200, req)
 }
 
 func main() {
 	router := gin.Default()
 
-	router.GET("/hello", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Hello Sabrina!",
-		})
-	})
-
-	//router.GET("/products", GetAll)
 	gopher := router.Group("/products")
 	{
 		gopher.GET("", GetAll)
 		gopher.GET("/:id", GetId)
 	}
-	// router.GET("/products", func(ctx *gin.Context) {
-	// 	read, err := os.ReadFile("./products.json")
-	// 	if err != nil {
-	// 		fmt.Println(err)
-	// 	}
 
-	// 	data := string(read)
-	// 	ctx.JSON(200, gin.H{"info": data})
-	// })
+	r := gin.Default()
+
+	r.POST("/products", Save)
 
 	router.Run()
 }
