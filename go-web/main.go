@@ -4,6 +4,7 @@ import (
 	//"fmt"
 	"net/http"
 	//"os"
+	"strconv"
 	"github.com/gin-gonic/gin"
 )
 
@@ -67,13 +68,12 @@ func GetAll(c *gin.Context) {
 
 func GetId(c *gin.Context) {
 	//prod, err := products[c.Param("id")]
-
-	// if err {
-	// 	c.String(200, "Información del producto %s, nombre: %s \n", c.Param("id"), prod)
-	// } else {
-	// 	c.String(404, "Información del producto ¡No existe! \n")
-
-	// }
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.String(404, "Información del producto ¡No existe! \n")
+		} else {
+		c.String(200, "Información del producto %s, nombre: %s \n", c.Param("id"), id)
+	}
 }
 
 func main() {
@@ -89,6 +89,7 @@ func main() {
 	gopher := router.Group("/products")
 	{
 		gopher.GET("", GetAll)
+		gopher.GET("/:id", GetId)
 	}
 	// router.GET("/products", func(ctx *gin.Context) {
 	// 	read, err := os.ReadFile("./products.json")
