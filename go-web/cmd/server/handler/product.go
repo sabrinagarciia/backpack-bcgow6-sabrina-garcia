@@ -1,8 +1,8 @@
 package handler
 
-import(
-	//"strconv"
-	//"net/http"
+import (
+	"strconv"
+	"net/http"
 	"github.com/gin-gonic/gin"
 	"github.com/sabrinagarciia/backpack-bcgow6-sabrina-garcia/go-web/internal/products"
 )
@@ -55,6 +55,73 @@ func (c *Product) GetAll(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(200, p)
+}
+
+func (c *Product) Save() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		token := ctx.Request.Header.Get("token")
+		if token != "123456" {
+			ctx.JSON(401, gin.H{"error": "token inválido"})
+			return
+		}
+		var req request
+		if err := ctx.Bind(&req); err != nil {
+			ctx.JSON(404, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		p, err := c.service.Save(req.ID, req.Name, req.Color, req.Price, req.Stock, req.Code, req.Published, req.Date)
+		if err != nil {
+			ctx.JSON(404, gin.H{"error": err.Error()})
+			return
+		}
+		ctx.JSON(200, p)
+	}
+}
+
+func (c *Product) Update() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		token := ctx.GetHeader("token")
+		if token != "123456" {
+			ctx.JSON(401, gin.H{"error": "token inválido"})
+			return
+		}
+		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+		if err != nil {
+			ctx.JSON(400, gin.H{"error": "invalid ID"})
+			return
+		}
+		var req request
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(400, gin.H{"error": err.Error()})
+			return
+		}
+		if req.Name == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "¡El campo Nombre es requerido!"})
+		}
+		if req.Color == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "¡El campo Color es requerido!"})
+		}
+		if req.Price == 0 {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "¡El campo Precio es requerido!"})
+		}
+		if req.Stock == 0 {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "¡El campo Stock es requerido!"})
+		}
+		if req.Code == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "¡El campo Codigo es requerido!"})
+		}
+		if req.Date == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "¡El campo Fecha es requerido!"})
+		}
+		p, err := c.service.Update(int(id), req.Name, req.Color, req.Price, req.Stock, req.Code, req.Published, req.Date)
+		if err != nil {
+			ctx.JSON(404, gin.H{"error": err.Error()})
+			return
+		}
+		ctx.JSON(200, p)
+	}
 }
 
 // func Save() gin.HandlerFunc {
@@ -110,4 +177,3 @@ func (c *Product) GetAll(ctx *gin.Context) {
 // 		c.String(200, "Información del producto %s, nombre: %s \n", c.Param("id"), id)
 // 	}
 // }
-
