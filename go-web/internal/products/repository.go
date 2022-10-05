@@ -48,23 +48,23 @@ var products = []Product{
 	},
 }*/
 
-var products = []Product{}
+var products []Product
 var lastID int
 
 type Repository interface {
 	GetAll() ([]Product, error)
-	Store(id int, name, productType string, count int, price float64) (Product, error)
+	Save(id int, name, color string, price float64, stock int, code string, published bool, date string) (Product, error)
 	LastID() (int, error)
-	Update(id int, name, productType string, count int, price float64) (Product, error)
+	Update(id int, name, color string, price float64, stock int, code string, published bool, date string) (Product, error)
 }
 
 type repository struct{} //struct implementa los metodos de la interfaz
 
 func NewRepository() Repository {
-	return &repository
+	return &repository{}
 }
 
-func (r *repository) Store(id int, name, color string, price float64, stock int, code string, published bool, date string) (Product, error) {
+func (r *repository) Save(id int, name, color string, price float64, stock int, code string, published bool, date string) (Product, error) {
 	p := Product{id, name, color, price, stock, code, published, date}
 	products = append(products, p)
 	lastID = p.ID
@@ -90,7 +90,7 @@ func (r *repository) Update(id int, name, color string, price float64, stock int
 		}
 	}
 	if !updated {
-		return Product{}, fmt.Errorf("Producto %d no encontrado", id)
+		return Product{}, fmt.Errorf("producto %d no encontrado", id)
 	}
 	return p, nil
 }
