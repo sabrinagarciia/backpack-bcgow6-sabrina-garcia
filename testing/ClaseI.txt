@@ -15,8 +15,8 @@ Validan el comportamiento funcional del software.
 （　♡　）
 Ejercicio 3
 ───── ❝ ¿Qué es un Test de Integración? ❞ ─────
-Tests que prueban la comunicación entre distintos componentes de la aplicación.
-Buscan comprobar que todos los bloques de código que fueron probados de forma unitaria, interactúen y se comuniquen entre sí correctamente.
+Tests que se enfocan en la comunicación entre los distintos componentes de la aplicación.
+Buscan comprobar que estos componentes, que ya pasaron por tests unitarios, interactúen y se comuniquen entre sí correctamente.
 
 Exponen el funcionamiento general de la aplicación, permitiendo evaluar su diseño, desempeño y comportamiento.
 
